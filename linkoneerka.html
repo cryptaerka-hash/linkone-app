@@ -2,21 +2,24 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="theme-color" content="#000000"/>
+<!-- Google Maps: замени YOUR_KEY на свой API ключ -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places,geometry&language=ru&region=UZ&callback=initGoogleMaps" async defer></script>
 <title>Linkone — MVP</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px}
+body{font-family:'Manrope',sans-serif;background:#fff;overflow:hidden;width:100%;height:100vh}
 :root{
   --black:#000;--white:#fff;--gray:#9ca3af;--light:#f3f4f6;
   --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
   --red:#dc2626;--blue:#2481cc;--r:18px;
 }
-.phone{width:375px;height:812px;background:#fff;border-radius:46px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.app{width:100%;height:100vh;background:#fff;position:relative;display:flex;flex-direction:column;overflow:hidden}
 
 /* ── ONBOARDING ── */
-.ob{position:absolute;inset:0;z-index:500;background:#0a0a0a;border-radius:46px;display:flex;flex-direction:column;overflow:hidden}
+.ob{position:absolute;inset:0;z-index:500;background:#0a0a0a;border-radius:0;display:flex;flex-direction:column;overflow:hidden}
 .ob.gone{display:none}
 .ob-slides-wrap{flex:1;overflow:hidden;min-height:0}
 .ob-slides{display:flex;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
@@ -217,7 +220,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 /* ── GENERIC OVERLAY SCREEN ── */
 .ov-screen{
-  position:absolute;inset:0;z-index:100;background:#fff;border-radius:46px;
+  position:absolute;inset:0;z-index:100;background:#fff;border-radius:0;
   transform:translateX(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -236,7 +239,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 /* ── MAP SCREEN ── */
 .map-screen{
-  position:absolute;inset:0;z-index:150;background:#fff;border-radius:46px;
+  position:absolute;inset:0;z-index:150;background:#fff;border-radius:0;
   transform:translateY(100%);transition:transform .42s cubic-bezier(.32,.72,0,1);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -282,7 +285,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 .confirm-btn:active{transform:scale(.98)}
 
 /* ── DRIVER SEARCH (enhanced) ── */
-.drv-ov{position:absolute;inset:0;background:#0a0a0a;border-radius:46px;z-index:240;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.drv-ov{position:absolute;inset:0;background:#0a0a0a;border-radius:0;z-index:240;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .drv-ov.show{opacity:1;pointer-events:auto}
 .drv-rings{position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
 .drv-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.15);animation:sonar 2.4s ease-out infinite}
@@ -312,7 +315,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 /* ── DRIVER ASSIGNED SCREEN ── */
 .da-screen{
-  position:absolute;inset:0;z-index:200;background:#fff;border-radius:46px;
+  position:absolute;inset:0;z-index:200;background:#fff;border-radius:0;
   transform:translateY(100%);transition:transform .42s cubic-bezier(.32,.72,0,1);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -375,7 +378,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 /* ── ACTIVE RIDE SCREEN ── */
 .ride-screen{
-  position:absolute;inset:0;z-index:210;background:#fff;border-radius:46px;
+  position:absolute;inset:0;z-index:210;background:#fff;border-radius:0;
   transform:translateY(100%);transition:transform .42s cubic-bezier(.32,.72,0,1);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -645,7 +648,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 .hs-done{color:#16a34a}.hs-cancel{color:#dc2626}
 
 /* ── PROFILE SCREEN ── */
-.profile-screen{position:absolute;inset:0;z-index:100;background:#fff;border-radius:46px;transform:translateX(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;overflow:hidden;}
+.profile-screen{position:absolute;inset:0;z-index:100;background:#fff;border-radius:0;transform:translateX(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;overflow:hidden;}
 .profile-screen.open{transform:translateX(0)}
 .prof-hero{background:#000;padding:24px 16px 20px;color:#fff;flex-shrink:0}
 .ph-avatar{width:68px;height:68px;border-radius:20px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:12px}
@@ -664,7 +667,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 .prof-logout{margin:16px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:14px;padding:14px;text-align:center;font-size:14px;font-weight:900;color:#dc2626;cursor:pointer}
 
 /* ── ADDRESS OVERLAY ── */
-.addr-ov{position:absolute;inset:0;z-index:180;background:#fff;border-radius:46px;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;overflow:hidden}
+.addr-ov{position:absolute;inset:0;z-index:180;background:#fff;border-radius:0;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;overflow:hidden}
 .addr-ov.open{transform:translateY(0)}
 .addr-head{padding:16px 14px 10px;background:#000;flex-shrink:0}
 .addr-back{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;width:36px;height:36px;border-radius:10px;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;justify-content:center}
@@ -685,10 +688,10 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 .addr-rd{font-size:11px;font-weight:700;color:#d1d5db;flex-shrink:0}
 
 /* ── SPOTLIGHT ── */
-#slOv{position:absolute;inset:0;z-index:200;border-radius:46px;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .2s}
+#slOv{position:absolute;inset:0;z-index:200;border-radius:0;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .2s}
 
 /* ── RIDE COMPLETE ── */
-.rc{position:absolute;inset:0;background:#fff;border-radius:46px;z-index:260;display:flex;flex-direction:column;align-items:center;overflow:hidden;opacity:0;transform:scale(.92);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.34,1.2,.64,1)}
+.rc{position:absolute;inset:0;background:#fff;border-radius:0;z-index:260;display:flex;flex-direction:column;align-items:center;overflow:hidden;opacity:0;transform:scale(.92);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.34,1.2,.64,1)}
 .rc.show{opacity:1;transform:scale(1);pointer-events:auto}
 .rc-conf{position:absolute;top:0;left:0;right:0;height:260px;overflow:hidden;pointer-events:none}
 .rc-p{position:absolute;width:7px;height:7px;border-radius:2px;animation:cf 2.8s ease-in forwards}
@@ -726,7 +729,7 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 </style>
 </head>
 <body>
-<div class="phone" id="phone">
+<div class="app" id="phone">
 
 <!-- ══════════ ONBOARDING ══════════ -->
 <div class="ob" id="ob">
@@ -949,47 +952,14 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 <!-- ══════════ MAP SCREEN ══════════ -->
 <div class="map-screen" id="mapScreen">
-  <div class="map-svg-wrap">
+  <div class="map-svg-wrap" id="mapWrap">
     <div class="map-drag-handle"></div>
-    <svg width="375" height="100%" viewBox="0 0 375 320" style="position:absolute;inset:0">
-      <rect width="375" height="320" fill="#ebe5d7"/>
-      <!-- blocks -->
-      <rect x="0" y="0" width="375" height="320" fill="#e8e2d4"/>
-      <rect x="62" y="46" width="38" height="28" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="118" y="6" width="100" height="68" rx="4" fill="#d4cfc0" opacity=".7"/>
-      <rect x="238" y="6" width="74" height="68" rx="4" fill="#d4cfc0" opacity=".7"/>
-      <rect x="8" y="94" width="94" height="38" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="118" y="94" width="100" height="38" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="238" y="94" width="74" height="38" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="8" y="150" width="94" height="44" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="118" y="150" width="100" height="44" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="238" y="150" width="74" height="44" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <!-- roads -->
-      <rect x="0" y="78" width="375" height="14" fill="#fff" opacity=".9"/>
-      <rect x="0" y="136" width="375" height="10" fill="#fff" opacity=".8"/>
-      <rect x="0" y="35" width="375" height="7" fill="#fff" opacity=".7"/>
-      <rect x="104" y="0" width="12" height="320" fill="#fff" opacity=".9"/>
-      <rect x="224" y="0" width="10" height="320" fill="#fff" opacity=".8"/>
-      <!-- route line animated -->
-      <path id="routePath" d="M 56 90 L 110 90 L 110 85 L 170 85 L 230 85 L 270 85" stroke="#1d4ed8" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="8 5" opacity=".7">
-        <animate attributeName="stroke-dashoffset" values="0;-26" dur="0.8s" repeatCount="indefinite"/>
-      </path>
-      <!-- pickup pin -->
-      <circle cx="56" cy="90" r="8" fill="#000"/>
-      <circle cx="56" cy="90" r="4" fill="#fff"/>
-      <!-- destination pin -->
-      <g transform="translate(270,72)">
-        <path d="M0 0 C-10-10-10-30 0-36 C10-30 10-10 0 0Z" fill="#dc2626"/>
-        <circle cx="0" cy="-24" r="6" fill="#fff"/>
-        <animateTransform attributeName="transform" type="translate" values="270,72;270,68;270,72" dur="2s" repeatCount="indefinite"/>
-      </g>
-      <!-- nearby cars -->
-      <text x="130" y="108" font-size="14" text-anchor="middle">🚗</text>
-      <text x="180" y="75" font-size="14" text-anchor="middle">🚗</text>
-      <text x="80" y="130" font-size="14" text-anchor="middle">🚗</text>
-    </svg>
+    <!-- Real Google Map -->
+    <div id="googleMap" style="width:100%;height:100%;"></div>
     <!-- back button -->
-    <button onclick="closeScreen('mapScreen')" style="position:absolute;top:24px;left:16px;width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.95);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15)">←</button>
+    <button onclick="closeScreen('mapScreen')" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);left:16px;width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.95);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.2);z-index:10">←</button>
+    <!-- my location button -->
+    <button onclick="centerOnUser()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 68px);left:16px;width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.95);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.2);z-index:10">📍</button>
   </div>
   <div class="map-bottom-card">
     <div class="route-card">
@@ -1040,25 +1010,8 @@ body{font-family:'Manrope',sans-serif;background:#1a1a1a;display:flex;justify-co
 
 <!-- ══════════ DRIVER ASSIGNED ══════════ -->
 <div class="da-screen" id="daScreen">
-  <div class="da-map-stub">
-    <svg width="375" height="280" style="position:absolute;inset:0"><rect width="375" height="280" fill="#e8e2d4"/>
-      <rect x="0" y="88" width="375" height="12" fill="#fff" opacity=".9"/>
-      <rect x="0" y="148" width="375" height="9" fill="#fff" opacity=".8"/>
-      <rect x="104" y="0" width="10" height="280" fill="#fff" opacity=".9"/>
-      <rect x="224" y="0" width="8" height="280" fill="#fff" opacity=".8"/>
-      <rect x="62" y="46" width="34" height="26" rx="3" fill="#d4cfc0" opacity=".7"/>
-      <rect x="118" y="10" width="98" height="66" rx="4" fill="#d4cfc0" opacity=".7"/>
-      <rect x="238" y="10" width="70" height="66" rx="4" fill="#d4cfc0" opacity=".7"/>
-      <!-- route -->
-      <path d="M56 94 L110 94 L110 90 L160 90 L225 90 L265 90" stroke="#1d4ed8" stroke-width="3" fill="none" stroke-dasharray="8 5" opacity=".6">
-        <animate attributeName="stroke-dashoffset" values="0;-26" dur="0.8s" repeatCount="indefinite"/>
-      </path>
-      <!-- pickup -->
-      <circle cx="56" cy="94" r="7" fill="#000"/><circle cx="56" cy="94" r="3.5" fill="#fff"/>
-      <!-- dest -->
-      <circle cx="265" cy="88" r="7" fill="#dc2626"/><circle cx="265" cy="88" r="3.5" fill="#fff"/>
-    </svg>
-    <div class="da-car-moving" id="daCarEmoji">🚗</div>
+  <div class="da-map-stub" id="daMapWrap">
+    <div id="daGoogleMap" style="width:100%;height:100%;"></div>
     <div class="da-eta-badge">
       <div class="da-eta-dot"></div>
       <span class="da-eta-txt" id="daEtaTxt">Подача через 2 мин</span>
