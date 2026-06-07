@@ -5,18 +5,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#000000"/>
 <!-- Google Maps: замени YOUR_KEY на свой API ключ -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places,geometry&language=ru&region=UZ&callback=initGoogleMaps" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBstV3PR-LNs7ke2SrzIkq6hvZwwwgbVkI&libraries=places,geometry&language=ru&region=UZ&callback=initGoogleMaps" async defer></script>
 <title>Linkone — MVP</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Manrope',sans-serif;background:#fff;overflow:hidden;width:100%;height:100vh}
+body{font-family:'Manrope',sans-serif;background:#fff;overflow:hidden;width:100%;height:100vh;height:100dvh;margin:0;padding:0}
+.tgh{padding-top:calc(env(safe-area-inset-top,0px) + 14px)}
+.bnav{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 8px)}
 :root{
   --black:#000;--white:#fff;--gray:#9ca3af;--light:#f3f4f6;
   --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
   --red:#dc2626;--blue:#2481cc;--r:18px;
 }
-.app{width:100%;height:100vh;background:#fff;position:relative;display:flex;flex-direction:column;overflow:hidden}
+.app{width:100%;height:100vh;height:100dvh;background:#fff;position:relative;display:flex;flex-direction:column;overflow:hidden}
+.map-svg-wrap{flex:1;position:relative;overflow:hidden;min-height:0}
+.map-screen{position:absolute;inset:0;z-index:150;background:#fff;border-radius:0;transform:translateY(100%);transition:transform .42s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;overflow:hidden}
+.map-screen.open{transform:translateY(0)}
+.map-bottom-card{background:#fff;border-radius:0;padding:16px 16px 0;box-shadow:0 -8px 40px rgba(0,0,0,.12);flex-shrink:0;overflow-y:auto;max-height:55vh}
+.da-map-stub{height:260px;flex-shrink:0;position:relative;overflow:hidden}
+.ride-map{height:300px;flex-shrink:0;position:relative;overflow:hidden}
 
 /* ── ONBOARDING ── */
 .ob{position:absolute;inset:0;z-index:500;background:#0a0a0a;border-radius:0;display:flex;flex-direction:column;overflow:hidden}
@@ -1795,11 +1803,17 @@ function switchProfile(m){
 /* ════ BOOKING FLOW ════ */
 function book(){
   if(!addrFrom || !addrTo){ showToast('📍 Укажите откуда и куда'); return; }
-  const from=document.getElementById('mapFrom');
-  const to=document.getElementById('mapTo');
-  if(from) from.textContent=addrFrom;
-  if(to)   to.textContent=addrTo;
+  updateMapCard();
   openScreen('mapScreen');
+  // Init map after screen is visible
+  setTimeout(() => {
+    initBookingMap();
+    if(destLatLng || NUKUS_PLACES_GEO[addrTo]) {
+      const origin = userLatLng || NUKUS;
+      const dest   = destLatLng || NUKUS_PLACES_GEO[addrTo];
+      if(dest && directionsService) drawRoute(origin, dest, gMap, directionsRenderer);
+    }
+  }, 400);
 }
 function confirmBooking(){
   haptic('heavy');
@@ -1846,7 +1860,11 @@ function startDriverSearch(){
     clearInterval(drvInt);
     hapticN('success');
     ov.style.opacity='0';
-    setTimeout(()=>{ ov.style.display='none'; booking=false; openScreen('daScreen'); },300);
+    setTimeout(()=>{
+      ov.style.display='none'; booking=false;
+      openScreen('daScreen');
+      setTimeout(()=>initDAMap(), 350);
+    }, 300);
   },2900);
 }
 function cancelSearch(){
@@ -1863,6 +1881,7 @@ function startActiveRide(){
   haptic('medium');
   closeScreen('daScreen');
   openScreen('rideScreen');
+  setTimeout(()=>initRideMap(), 350);
   simulateRide();
 }
 function cancelFromDA(){
